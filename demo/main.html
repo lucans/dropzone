@@ -82,16 +82,16 @@
 			
 			$scope.dzCallbacks = {
 		           'addedfile': function(file) {
-                                $scope.file = file;
-                              
-                                $scope.$apply(function() {
-                                    $scope.fileAdded = true;
-                                });
-                            },
+                        $scope.file = file;
+                      
+                        $scope.$apply(function() {
+                            $scope.fileAdded = true;
+                        });
+                    },
 
-                            'success': function (file, response) {
-                            	console.log(response);
-                            }
+                    'success': function (file, response) {
+                    	console.log(response);
+                    }
 			};
 
 
