@@ -1,81 +1,142 @@
 <!DOCTYPE html>
-<html ng-app="myNgApp">
+<html ng-app="app">
 	<head>
 		<meta charset="utf-8">
 		<title>ng-dropzone simple example</title>
 		
 		<!-- AngularJS -->
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+		<script src="../src/js/angular.min.js"></script>
 		
 		<!-- Dropzone -->
-		<script src="https://rawgit.com/enyo/dropzone/d8ef7a82e6ab5447c1f2d9512c8e1bfd4de5ac9e/dist/dropzone.js"></script>
-		<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/d8ef7a82e6ab5447c1f2d9512c8e1bfd4de5ac9e/dist/dropzone.css">
-		
-		<!-- ng-dropzone -->
-		<script src="../dist/ng-dropzone.min.js"></script>
-		
-		<!-- Misc -->
+		<script src="../src/js/dropzone.js"></script>
+		<script src="../src/js/ng-dropzone.js"></script>
+		<link rel="stylesheet" href="../src/css/dropzone.css">		
 		<link rel="stylesheet" href="../dist/ng-dropzone.min.css">
-		<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
-		
+
+
+		<!-- Clipboard -->
+		<script src="../src/js/clipboard.min.js"></script>
+		<script src="../src/js/ng-clipboard.js"></script>
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="../src/css/bootstrap.min.css">
+
+		<!-- Font awesome -->
+		<link rel="stylesheet" href="../src/css/font-awesome.min.css">
+	
 		<style>
 			body{
 				font-family:'Roboto', sans-serif !important;
+				margin-top: 80px;
 			}
 			.dropzone{
-				width:700px;
-				min-height:250px;
-				margin: 10px auto;
+				max-width:410px;
+				min-width:410px;
+				min-height:160px;				
 			}
-			#dropzone3{
-				display: none;
+		
+			#final_file{
+				max-height: 160px; 
+				max-width: 410px; 
+				min-height: 160px; 
+				min-width: 410px;
+			}
+			.green-text{
+				transition: 1s;
+				color: #449d44;
+			}
+			.btn{
+				margin-right: 3px;
+			}
+			.panel-heading{
+				font-weight: bold;
 			}
 		</style>
-	</head>
-	<body>
-		<h1 style="text-align:center; margin-bottom:0px; color:#000;">ng-dropzone</h1>
-		<p style="text-align:center; color:#666; font-weight:300;">
-			Angularjs directive for Dropzone, an easy to use drag'n'drop file upload library.
-		</p>
-		
 
-		<!-- ####################################################### -->
-		<!-- #####################   DROPZONES  #################### -->
-		<!-- ####################################################### -->
-		
-		<!-- Dropzone 1 -->
-		<div ng-controller="drop1Controller">
-			<div id="dropzone1" class="dropzone" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">	    
+	          <a class="navbar-brand" href="#">Minify CSS Files</a>
+	        </div>	      
+	      </div>
+	    </nav>
+
+	</head>
+
+
+	<body>
+
+	<div class="container" ng-controller="drop1Controller">		
+		<div class="col-md-5">			
+			<div class="panel panel-default" ng-class="{'panel-success' : response_upload == 'success'}">			
+				<div class="panel-heading">
+					<center>DROP YOUR FILES HERE <i class="fa fa-hand-o-down"></i></center>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="dropzone" id="dropzone1" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>					
+						<center>
+						</center>
+					</div>				
+				</div>
+				<div class="panel-footer">
+					<button ng-click="getClean()" class="btn center-block" ng-class="{'btn-success' : response_upload == 'success'}" ng-disabled="!fileAdded">Minify!</button>												
+				</div>
+			</div>
 		</div>
-		
-		
-		
-		<!-- ####################################################### -->
-		<!-- #####################  JAVASCRIPT  #################### -->
-		<!-- ####################################################### -->
-		<script>
+
+		<div class="col-xs-1">			
+			<i class="fa fa-chevron-right" ng-class="{'green-text' : response_upload == 'success'}" style="font-size: 48px; margin-top: 120px; margin-left: 20px"></i>
+		</div>
+
+		<div class="col-md-5">			
+			<div class="panel panel-default" ng-class="{'panel-info' : final_file.length > 0}">			
+				<div class="panel-heading">
+					<center>HERE'S YOUR CLEAN CSS <i class="fa fa-smile-o"></i></center>
+				</div>
+				<div class="panel-body">
+					<div class="form-group">								
+					    <textarea class="form-control" ng-model="final_file" id="final_file"></textarea>			
+					</div>				
+				</div>
+				<div class="panel-footer">									
+					<button class="btn" ngclipboard data-clipboard-target="#final_file" ng-class="{'btn-primary' : final_file.length > 0}" ng-disabled="!final_file">Copy all <i class="fa fa-clone"></i></button>					
+					<button class="btn pull-right" ng-disabled="!final_file" ng-click="final_file = ''">Clear</i></button>					
+					<button class="btn pull-right" ng-class="{'btn-primary' : final_file.length > 0}" ng-disabled="!final_file">Download as file <i class="fa fa-download"></i></button>					
+				</div>
+			</div>
+		</div>
+
+	</div>		
+
+
+	<script>
 		Dropzone.autoDiscover = false;
-		var myNgApp = angular.module('myNgApp', ['thatisuday.dropzone']);
+		var app = angular.module('app', ['thatisuday.dropzone','ngclipboard']);
 		
-		myNgApp.config(function(dropzoneOpsProvider){
+		app.config(function(dropzoneOpsProvider){
 			dropzoneOpsProvider.setOptions({
-				url : 'upload_1.php',
-				acceptedFiles : '.css, .txt, .jpg',
+				url : 'upload_1.php?func=upload',
+				acceptedFiles : '.css',
 				addRemoveLinks : true,
-				dictDefaultMessage : 'Click to add or drop photos',
-				dictRemoveFile : 'Remove photo',
-				dictResponseError : 'Could not upload this photo'
+				dictDefaultMessage : 'Click to add or drop .css files',
+				dictRemoveFile : 'Remove',
+				dictResponseError : 'Could not upload this photo',
+				filename : 'teste'			
 			});
 		});
 		
 		// Dropzone 1
-		myNgApp.controller('drop1Controller', function($scope, $timeout, $http){
+		app.controller('drop1Controller', function($scope, $timeout, $http){
 			$scope.dzOptions = {
 				paramName : 'file',
 				maxFilesize : '10',
 				  	init: function() {
 				        this.on("success", function(responseText) {
-				            console.log(responseText);
+			            	// console.log(responseText);
+			                // $scope.getClean();
+
+
 				        });
 				    }
 			};
@@ -87,24 +148,35 @@
                         $scope.$apply(function() {
                             $scope.fileAdded = true;
                         });
+
+                        var preview = document.getElementsByClassName('dz-preview');
+			            preview = preview[preview.length - 1];
+
+			            var imageName = document.createElement('span');
+			            imageName.innerHTML = file.name;
+
+			            preview.insertBefore(imageName, preview.firstChild);
+
+
                     },
 
                     'success': function (file, response) {
+                    	$scope.response_upload = response;
                     	console.log(response);
                     }
 			};
 
+			$scope.getClean = function(){			
+		        $http.get("upload_1.php?func=clean").success(function(result){
+					// console.log("segura o limpo" + result);     
+					$scope.final_file = result;       
+				});			
+			}
 
 		});	
+	</script>
+	
+	</body>		
 
-
-		</script>
-
-
-		<!-- ####################################################### -->
-		<!-- ######################  ASYNC JS  ##################### -->
-		<!-- ####################################################### -->
-		<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
-	</body>
 </html>
 

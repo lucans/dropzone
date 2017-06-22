@@ -1,3 +1,0 @@
-estilo 1{
-	color: black;
-}
