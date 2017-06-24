@@ -29,18 +29,18 @@
 				font-family:'Roboto', sans-serif !important;
 				margin-top: 80px;
 			}
-			.dropzone{
+/*			.dropzone{
 				max-width:410px;
 				min-width:410px;
 				min-height:160px;				
-			}
+			}*/
 		
-			#final_file{
+		/*	#final_string{
 				max-height: 160px; 
 				max-width: 410px; 
 				min-height: 160px; 
 				min-width: 410px;
-			}
+			}*/
 			.green-text{
 				transition: 1s;
 				color: #449d44;
@@ -90,19 +90,19 @@
 		</div>
 
 		<div class="col-md-5">			
-			<div class="panel panel-default" ng-class="{'panel-info' : final_file.length > 0}">			
+			<div class="panel panel-default" ng-class="{'panel-info' : final_string.length > 0}">			
 				<div class="panel-heading">
 					<center>HERE'S YOUR CLEAN CSS <i class="fa fa-smile-o"></i></center>
 				</div>
 				<div class="panel-body">
 					<div class="form-group">								
-					    <textarea class="form-control" ng-model="final_file" id="final_file"></textarea>			
+					    <textarea class="form-control" ng-model="final_string" id="final_string"></textarea>			
 					</div>				
 				</div>
 				<div class="panel-footer">									
-					<button class="btn" ngclipboard data-clipboard-target="#final_file" ng-class="{'btn-primary' : final_file.length > 0}" ng-disabled="!final_file">Copy all <i class="fa fa-clone"></i></button>					
-					<button class="btn pull-right" ng-disabled="!final_file" ng-click="final_file = ''">Clear</i></button>					
-					<button class="btn pull-right" ng-class="{'btn-primary' : final_file.length > 0}" ng-disabled="!final_file">Download as file <i class="fa fa-download"></i></button>					
+					<button class="btn" ngclipboard data-clipboard-target="#final_string" ng-class="{'btn-primary' : final_string.length > 0}" ng-disabled="!final_string">Copy all <i class="fa fa-clone"></i></button>					
+					<button class="btn pull-right" ng-disabled="!final_string" ng-click="final_string = ''">Clear</i></button>					
+					<button class="btn pull-right" ng-class="{'btn-primary' : final_string.length > 0}" ng-disabled="!final_string">Download as file <i class="fa fa-download"></i></button>					
 				</div>
 			</div>
 		</div>
@@ -144,7 +144,9 @@
 			$scope.dzCallbacks = {
 		           'addedfile': function(file) {
                         $scope.file = file;
-                      
+
+                        var aux = file.name.substring(0, 11) + '...css';                    	
+
                         $scope.$apply(function() {
                             $scope.fileAdded = true;
                         });
@@ -153,10 +155,11 @@
 			            preview = preview[preview.length - 1];
 
 			            var imageName = document.createElement('span');
-			            imageName.innerHTML = file.name;
+			            imageName.innerHTML = aux;
 
 			            preview.insertBefore(imageName, preview.firstChild);
 
+			            var aux = '';
 
                     },
 
@@ -169,7 +172,7 @@
 			$scope.getClean = function(){			
 		        $http.get("upload_1.php?func=clean").success(function(result){
 					// console.log("segura o limpo" + result);     
-					$scope.final_file = result;       
+					$scope.final_string = result.final_string;       
 				});			
 			}
 

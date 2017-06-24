@@ -27,33 +27,47 @@ class Css{
 		echo "success";
 	}	
 
-	public function clean(){		
+	public function clean(){
 
 		$dir = opendir('C:\xampp\htdocs\dropzone\imagens/');
 
 		$arquivo = readdir($dir);
+	    
+	    $aResult = array();
+
 
 		while (false !== ($file = readdir($dir))) {
 			// echo file_get_contents('C:\xampp\htdocs\dropzone\imagens/' . $file);
-	        $final_file .= file_get_contents('C:\xampp\htdocs\dropzone\imagens/' . $file);	        
+	        $aResult['final_string'] .= file_get_contents('C:\xampp\htdocs\dropzone\imagens/' . $file);	 
+	        $aResult['total_size_antes'] +=  number_format(filesize('C:\xampp\htdocs\dropzone\imagens/' . $file), 2, '.', '');
 	    }
 
-	    $final_file = strip_tags($final_file);
-		$final_file = str_replace(' ', '', $final_file);
+
+
+	    $aResult['final_string'] = strip_tags($aResult['final_string']);
 
 		// remmove comments
-	    $final_file = preg_replace('#/\*.*?\*/#s', '', $final_file);
+	    $aResult['final_string'] = preg_replace('#/\*.*?\*/#s', '', $aResult['final_string']);
 
 	    // Remove whitespace
-	    $final_file = preg_replace('/\s*([{}|:;,])\s+/', '$1', $final_file);
+	    $aResult['final_string'] = preg_replace('/\s*([{}|:;,])\s+/', '$1', $aResult['final_string']);
 
 	    // Remove trailing whitespace at the start
-	    $final_file = preg_replace('/\s\s+(.*)/', '$1', $final_file);
+	    $aResult['final_string'] = preg_replace('/\s\s+(.*)/', '$1', $aResult['final_string']);
 	    
 	    // Remove unnecesairy ;'s
-	    $final_file = str_replace(';}', '}', $final_file);
+	    $aResult['final_string'] = str_replace(';}', '}', $aResult['final_string']);
+	    
 
-		echo $final_file;
+	    $arquivo = fopen('C:\xampp\htdocs\dropzone\imagens/' . 'teste.css', 'w');
+	    fwrite($arquivo, $aResult['final_string']);
+	    $aResult['total_size_depois'] = filesize('C:\xampp\htdocs\dropzone\imagens/' . 'teste.css');
+
+	    
+	    // $aResult['percentual_menor'] = ($aResult['total_size_antes'] * 100) / ($aResult['total_size_depois']) / 100; 
+
+
+		echo json_encode($aResult);
 	}
 	
 }
