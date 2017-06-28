@@ -114,7 +114,7 @@
 	<div class="container" ng-controller="drop1Controller">		
 		<div class="row">	
 
-			<h1>Minify your CSS files</h2>
+			<h1>Minify your CSS files or CSS code</h2>
 			<h2>
 				<p>
 					The <b>minification</b> procedure removes all <b>unnecessary</b> content from the code, but without affecting its operation. <br>
@@ -123,7 +123,7 @@
 			</h2>
 			
 			<div class="card col m10" ng-class="{'green lighten-5' : response_upload == 'success'}" ng-init="mode = 'file'">							
-				<span class="card-title"><center><big class="clickable" ng-click="mode = 'file'">DROP YOUR FILES HERE</big> <br> <small class="clickable" ng-click="mode = 'text'" ng-show="!fileAdded"><small class="blue-text">Click here to switch to CSS Text mode</small></small></center></span>
+				<span class="card-title"><center><big class="clickable" ng-click="mode = 'file'">DROP YOUR FILES HERE</big> <br> <small class="clickable" ng-click="mode = 'text'" ng-show="!fileAdded"><small class="blue-text">Click here to switch to CSS Code mode</small></small></center></span>
 				
 				<!-- DROPZONE -->
 				<div ng-show="mode == 'file'">					
@@ -150,7 +150,7 @@
 				</div>
 			</div>	
 
-			<div class="progress" ng-show="loadbar">
+			<div class="progress col m10" ng-show="loadbar">
 		     	<div class="indeterminate"></div>
 		  	</div>
 
@@ -265,12 +265,12 @@
 
                     'success': function (file, response) {
                     	$scope.response_upload = response;
-                    	console.log(response);
+                    	// console.log(response);
                     }
 			};
 
 			$scope.getClean = function(mode, text = ''){		
-			console.log(text);	
+				// console.log(text);	
 				$scope.loadbar = true;
 
 				    $http.post("upload_1.php?func=" + mode, {
