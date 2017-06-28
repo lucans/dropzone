@@ -8,8 +8,8 @@ switch ($func) {
 	case 'upload':
 		Css::upload();
 		break;
-	case 'clean':
-		Css::clean();
+	case 'clean_files':
+		Css::clean_files();
 		break;
 	default:
 		echo "case def";
@@ -27,7 +27,7 @@ class Css{
 		echo "success";
 	}	
 
-	public function clean(){
+	public function clean_files(){
 
 		$dir = opendir('C:\xampp\htdocs\dropzone\imagens/');
 
@@ -38,10 +38,10 @@ class Css{
 
 		while (false !== ($file = readdir($dir))) {
 			// echo file_get_contents('C:\xampp\htdocs\dropzone\imagens/' . $file);
-	        $aResult['final_string'] .= file_get_contents('C:\xampp\htdocs\dropzone\imagens/' . $file);	 
-	        $aResult['total_size_antes'] +=  number_format(filesize('C:\xampp\htdocs\dropzone\imagens/' . $file), 2, '.', '');
-	    }
+	        $aResult['total_string'] .= file_get_contents('C:\xampp\htdocs\dropzone\imagens/' . $file);	
 
+	        $aResult['final_string'] .= file_get_contents('C:\xampp\htdocs\dropzone\imagens/' . $file);	 
+	    }
 
 
 	    $aResult['final_string'] = strip_tags($aResult['final_string']);
@@ -61,10 +61,14 @@ class Css{
 
 	    $arquivo = fopen('C:\xampp\htdocs\dropzone\imagens/' . 'teste.css', 'w');
 	    fwrite($arquivo, $aResult['final_string']);
-	    $aResult['total_size_depois'] = filesize('C:\xampp\htdocs\dropzone\imagens/' . 'teste.css');
+	    
+	    
+
+	    $aResult['antes'] =  strlen($aResult['total_string']);
+	    $aResult['depois'] = strlen($aResult['final_string']);
 
 	    
-	    // $aResult['percentual_menor'] = ($aResult['total_size_antes'] * 100) / ($aResult['total_size_depois']) / 100; 
+	    $aResult['percent'] = round((($aResult['antes'] - $aResult['depois']) / $aResult['antes']) * 100, 2);
 
 
 		echo json_encode($aResult);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html ng-app="app" class="grey lighten-4 grey-text">
 	<head>
 		<meta charset="utf-8">
 		<title>ng-dropzone simple example</title>
@@ -19,47 +19,53 @@
 		<script src="../src/js/ng-clipboard.js"></script>
 
 		<!-- Bootstrap -->
-		<link rel="stylesheet" href="../src/css/bootstrap.min.css">
+		<!-- <link rel="stylesheet" href="../src/css/bootstrap.min.css"> -->		
+
+		<!-- Materialize -->
+		<link rel="stylesheet" href="../src/css/materialize.min.css">
 
 		<!-- Font awesome -->
 		<link rel="stylesheet" href="../src/css/font-awesome.min.css">
 	
 		<style>
 			body{
-				font-family:'Roboto', sans-serif !important;
-				margin-top: 80px;
+				font-family:'Roboto', sans-serif !important;				
 			}
-/*			.dropzone{
-				max-width:410px;
-				min-width:410px;
-				min-height:160px;				
-			}*/
-		
-		/*	#final_string{
-				max-height: 160px; 
-				max-width: 410px; 
-				min-height: 160px; 
-				min-width: 410px;
-			}*/
 			.green-text{
 				transition: 1s;
 				color: #449d44;
 			}
 			.btn{
 				margin-right: 3px;
+			}		
+			.container{
+				margin-top: 30px;
+			}	
+			#final_string{
+				max-height: 165px;
+				min-height: 165px;
+/*
+				max-width: 472px;
+				min-width: 472px;*/
 			}
-			.panel-heading{
+
+		/*	#dropzone1{
+				max-height: 165px;
+				min-height: 165px;
+
+				max-width: 472px;
+				min-width: 472px;
+			}*/
+			.card-title{
 				font-weight: bold;
+				/*color: white;*/
+			}
+			.page-footer{
+				position: absolute;
+				bottom: 0;
+				width: 100%;
 			}
 		</style>
-
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-	      <div class="container">
-	        <div class="navbar-header">	    
-	          <a class="navbar-brand" href="#">Minify CSS Files</a>
-	        </div>	      
-	      </div>
-	    </nav>
 
 	</head>
 
@@ -67,46 +73,74 @@
 	<body>
 
 	<div class="container" ng-controller="drop1Controller">		
-		<div class="col-md-5">			
-			<div class="panel panel-default" ng-class="{'panel-success' : response_upload == 'success'}">			
-				<div class="panel-heading">
-					<center>DROP YOUR FILES HERE <i class="fa fa-hand-o-down"></i></center>
-				</div>
-				<div class="panel-body">
+		<div class="row">	
+
+		<h3>Minify your CSS files</h3>
+		<p>
+			The <b>minification</b> procedure removes all <b>unnecessary</b> content from the code, but without affecting its operation. <br>
+			Here you can <b>easily minify</b> your css files to <b>optimize</b> your project!
+		</p>
+			<div class="card col m12" ng-class="{'green lighten-5' : response_upload == 'success'}">							
+				<span class="card-title"><center>DROP YOUR FILES HERE</center></span>
+				<div class="card-content">
 					<div class="form-group">
-						<div class="dropzone" id="dropzone1" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>					
-						<center>
-						</center>
+						<div class="dropzone" id="dropzone1" options="dzOptions" callbacks="dzCallbacks" ng-dropzone></div>										
 					</div>				
 				</div>
-				<div class="panel-footer">
-					<button ng-click="getClean()" class="btn center-block" ng-class="{'btn-success' : response_upload == 'success'}" ng-disabled="!fileAdded">Minify!</button>												
+				<div class="card-action" ng-show="response_upload == 'success' && fileAdded">
+					<button ng-click="getClean()" class="btn green">Minify</button>																	
 				</div>
-			</div>
-		</div>
+			</div>	
 
-		<div class="col-xs-1">			
-			<i class="fa fa-chevron-right" ng-class="{'green-text' : response_upload == 'success'}" style="font-size: 48px; margin-top: 120px; margin-left: 20px"></i>
-		</div>
+			<div class="progress" ng-show="loadbar">
+		     	<div class="indeterminate"></div>
+		  	</div>
 
-		<div class="col-md-5">			
-			<div class="panel panel-default" ng-class="{'panel-info' : final_string.length > 0}">			
-				<div class="panel-heading">
-					<center>HERE'S YOUR CLEAN CSS <i class="fa fa-smile-o"></i></center>
-				</div>
-				<div class="panel-body">
+			<div class="card blue lighten-4 col m12" ng-show="result.final_string.length > 0">				
+				<span class="card-title white-text"><center>HERE'S YOUR CLEAN CSS</center></span>
+				<div class="card-content">
 					<div class="form-group">								
-					    <textarea class="form-control" ng-model="final_string" id="final_string"></textarea>			
-					</div>				
-				</div>
-				<div class="panel-footer">									
-					<button class="btn" ngclipboard data-clipboard-target="#final_string" ng-class="{'btn-primary' : final_string.length > 0}" ng-disabled="!final_string">Copy all <i class="fa fa-clone"></i></button>					
-					<button class="btn pull-right" ng-disabled="!final_string" ng-click="final_string = ''">Clear</i></button>					
-					<button class="btn pull-right" ng-class="{'btn-primary' : final_string.length > 0}" ng-disabled="!final_string">Download as file <i class="fa fa-download"></i></button>					
-				</div>
-			</div>
-		</div>
+					    <textarea class="white" ng-model="result.final_string" id="final_string"></textarea>			
+					</div>		
 
+				 <div class="row">
+			        <div class="col m3">
+			          <div class="card blue">
+			            <div class="card-content white-text">
+			              <span class="card-title"><small>Input</small></span>
+			              <p><big>{{result.antes}}</big> characters</p>
+			            </div>           
+			          </div>
+			        </div>
+			    
+			        <div class="col m3">
+			          <div class="card blue">
+			            <div class="card-content white-text">
+			              <span class="card-title"><small>Output</small></span>
+			              <p><big>{{result.depois}}</big> characters</p>
+			            </div>           
+			          </div>
+			        </div>
+			      
+			        <div class="col m6">
+			          <div class="card green darken-1">
+			            <div class="card-content white-text">
+			              <span class="card-title">You saved</span>
+			              <p><big>{{result.percent}}</big> <i class="fa fa-percent"></i></p>
+			            </div>           
+			          </div>
+			        </div>
+			      </div>
+
+				</div>
+				<div class="card-action">									
+					<button class="btn" ngclipboard data-clipboard-target="#final_string" ng-class="{'blue darken-1' : result.final_string.length > 0}" ng-disabled="!result.final_string">Copy all <i class="fa fa-clone"></i></button>					
+					<button class="btn right" ng-disabled="!result.final_string" ng-click="result.final_string = ''">Clear</i></button>					
+					<!-- <button class="btn right" ng-class="{'btn-primary' : final_string.length > 0}" ng-disabled="!final_string">Download as file <i class="fa fa-download"></i></button> -->
+				</div>
+			</div>		
+
+		</div>
 	</div>		
 
 
@@ -135,8 +169,6 @@
 				        this.on("success", function(responseText) {
 			            	// console.log(responseText);
 			                // $scope.getClean();
-
-
 				        });
 				    }
 			};
@@ -145,7 +177,7 @@
 		           'addedfile': function(file) {
                         $scope.file = file;
 
-                        var aux = file.name.substring(0, 11) + '...css';                    	
+                        var aux = file.name.substring(0, 10) + '..<b>.css<b/>';                    	
 
                         $scope.$apply(function() {
                             $scope.fileAdded = true;
@@ -170,9 +202,11 @@
 			};
 
 			$scope.getClean = function(){			
-		        $http.get("upload_1.php?func=clean").success(function(result){
-					// console.log("segura o limpo" + result);     
-					$scope.final_string = result.final_string;       
+				$scope.loadbar = true;
+				
+		        $http.get("upload_1.php?func=clean_files").success(function(result){					  
+					$scope.result = result;				   
+					$scope.loadbar = false;
 				});			
 			}
 
