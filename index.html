@@ -92,15 +92,26 @@
 
 	<body>
 
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-101746505-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+
 	<div class="container" ng-controller="drop1Controller">		
 		<div class="row">	
 
-		<h3>Minify your CSS files</h3>
-		<p>
-			The <b>minification</b> procedure removes all <b>unnecessary</b> content from the code, but without affecting its operation. <br>
-			Here you can <b>easily minify</b> your css files to <b>optimize</b> your project!
-		</p>
-			<div class="card col m12" ng-class="{'green lighten-5' : response_upload == 'success'}" ng-init="mode = 'file'">							
+			<h3>Minify your CSS files</h3>
+			<p>
+				The <b>minification</b> procedure removes all <b>unnecessary</b> content from the code, but without affecting its operation. <br>
+				Here you can <b>easily minify</b> your css files to <b>optimize</b> your project!
+			</p>
+			
+			<div class="card col m10" ng-class="{'green lighten-5' : response_upload == 'success'}" ng-init="mode = 'file'">							
 				<span class="card-title"><center><big class="clickable" ng-click="mode = 'file'">DROP YOUR FILES HERE</big> <br> <small class="clickable" ng-click="mode = 'text'" ng-show="!fileAdded"><small class="blue-text">Click here to switch to CSS Text mode</small></small></center></span>
 				
 				<!-- DROPZONE -->
@@ -132,7 +143,7 @@
 		     	<div class="indeterminate"></div>
 		  	</div>
 
-			<div class="card blue lighten-4 col m12" ng-show="result.final_string.length > 0">				
+			<div class="card blue lighten-4 col m10" ng-show="result.final_string.length > 0">				
 				<span class="card-title white-text"><center>HERE'S YOUR CLEAN CSS</center></span>
 				<div class="card-content">
 					<div class="form-group">								
@@ -176,6 +187,17 @@
 				</div>
 			</div>		
 
+			<div class="col m2">				
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- Minify CSS -->
+				<ins class="adsbygoogle"
+				     style="display:inline-block;width:300px;height:600px"
+				     data-ad-client="ca-pub-7817456122326816"
+				     data-ad-slot="2641066489"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+			</div>
 		</div>
 	</div>		
 
