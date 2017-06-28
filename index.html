@@ -2,8 +2,11 @@
 <html ng-app="app" class="grey lighten-4 grey-text">
 	<head>
 		<meta charset="utf-8">
-		<title>Minify CSS Files</title>
-		
+		<title>Minify CSS Files - Minify your CSS and improve your project</title>
+		<meta name="description" content="Minify your CSS easily. Drop your files or paste your CSS text. Improve your website speed and rank." />
+		<meta name="keywords" content="CSS,Minify,Compress,Improve,Speed,Compressor,Code,Css1,Css2,Css3,Easy,Free,Boost,Increase,Rank,Formatter,Text,Tool,Best Practice,Developer,Project,Protect,Compressão,Desempenho,Velocidade,Compressor,Código,Desenvolvedor,Programação,Estilo,Style,Stylesheet,Formatador,Texto,Ferramenta,Ranqueamento,Proteção,Boas práticas,Grátis,Fácil,Rápido">
+  		<meta name="author" content="Lucas Sanches">
+  		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- AngularJS -->
 		<script src="src/js/angular.min.js"></script>
 		
@@ -86,6 +89,12 @@
 			.clickable{
 				cursor: pointer;
 			}
+			h1{
+				font-size: 3.2rem !important;
+			}
+			h2{
+				font-size: 1.20rem !important;
+			}
 		</style>
 
 	</head>
@@ -105,11 +114,13 @@
 	<div class="container" ng-controller="drop1Controller">		
 		<div class="row">	
 
-			<h3>Minify your CSS files</h3>
-			<p>
-				The <b>minification</b> procedure removes all <b>unnecessary</b> content from the code, but without affecting its operation. <br>
-				Here you can <b>easily minify</b> your css files to <b>optimize</b> your project!
-			</p>
+			<h1>Minify your CSS files</h2>
+			<h2>
+				<p>
+					The <b>minification</b> procedure removes all <b>unnecessary</b> content from the code, but without affecting its operation. <br>
+					Here you can <b>easily minify</b> your css files to <b>optimize</b> your project!
+				</p>
+			</h2>
 			
 			<div class="card col m10" ng-class="{'green lighten-5' : response_upload == 'success'}" ng-init="mode = 'file'">							
 				<span class="card-title"><center><big class="clickable" ng-click="mode = 'file'">DROP YOUR FILES HERE</big> <br> <small class="clickable" ng-click="mode = 'text'" ng-show="!fileAdded"><small class="blue-text">Click here to switch to CSS Text mode</small></small></center></span>
