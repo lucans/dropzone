@@ -61,7 +61,7 @@ class Css{
 	    $aResult['percent'] = round((($aResult['antes'] - $aResult['depois']) / $aResult['antes']) * 100, 2);
 
 		echo json_encode($aResult);
-
+		
 	}
 
 
