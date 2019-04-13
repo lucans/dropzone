@@ -36,7 +36,7 @@ class Css{
 		} else if ($_SERVER['DOCUMENT_ROOT'] == 'C:/xampp/htdocs') {
 		    $link = mysqli_connect("localhost","root","","db_minify");
 		} else {
-		    $link = mysqli_connect('mysql.hostinger.com.br','u709177649_minif','bTt3pMBIGlo6','u709177649_minif');
+		    $link = mysqli_connect();
 		}
 
 		$sSql = "INSERT INTO log (conteudo, tipo, dt, ip, porcentagem_salva) VALUES ('" . $conteudo . "', '" . $tipo. "', NOW(),'" . $_SERVER["REMOTE_ADDR"] . "', '" . $porcentagem_salva . "')";
