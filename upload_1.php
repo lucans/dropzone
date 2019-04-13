@@ -12,18 +12,39 @@ switch ($func) {
 	case 'upload':
 		Css::upload();
 		break;
-	case 'clean_files':
-		Css::clean_files();
+	case 'crushFiles':
+		Css::crushFiles();
 		break;	
-	case 'clean_text':	
-		Css::clean_text($aDados->text);
+	case 'crushText':	
+		Css::crushText($aDados->text);
+		break;	
+	case 'clearAll':	
+		Css::clearAll();
 		break;
 	default:
-		echo "case def";
+		echo "default ma friend";
 		break;
 }
 
 class Css{
+
+
+	public function log($tipo, $conteudo = '', $porcentagem_salva = 0){
+
+		if ($_SERVER['DOCUMENT_ROOT'] == 'C:/Users/Lucas/Documents/GitHub') {				
+		    $link = mysqli_connect("192.168.10.20","root","proxy","db_minify");
+		} else if ($_SERVER['DOCUMENT_ROOT'] == 'C:/xampp/htdocs') {
+		    $link = mysqli_connect("localhost","root","","db_minify");
+		} else {
+		    $link = mysqli_connect('mysql.hostinger.com.br','u709177649_minif','bTt3pMBIGlo6','u709177649_minif');
+		}
+
+		$sSql = "INSERT INTO log (conteudo, tipo, dt, ip, porcentagem_salva) VALUES ('" . $conteudo . "', '" . $tipo. "', NOW(),'" . $_SERVER["REMOTE_ADDR"] . "', '" . $porcentagem_salva . "')";
+		// die($sSql);
+
+		mysqli_query($link, $sSql);	
+	}
+		
 
 	public function upload(){
 
@@ -31,11 +52,13 @@ class Css{
 
 		move_uploaded_file($_FILES['file']['tmp_name'], 'C:\xampp\htdocs\dropzone\css_uploaded/' . $_FILES['file']['name']);
 
+		self::log('upload_file');
+
 		echo "success";
 	}	
 
 
-	public function clean_text($text){	  	
+	public function crushText($text){
 
 	    $aResult = array();
 		
@@ -60,12 +83,15 @@ class Css{
 	    
 	    $aResult['percent'] = round((($aResult['antes'] - $aResult['depois']) / $aResult['antes']) * 100, 2);
 
+
+	    self::log('crush_text',  substr($aResult['final_string'], 0, 50), $aResult['percent']);
+
 		echo json_encode($aResult);
 		
 	}
 
 
-	public function clean_files(){
+	public function crushFiles(){
 
 		$dir = opendir('C:\xampp\htdocs\dropzone\css_uploaded/');
 
@@ -73,13 +99,13 @@ class Css{
 	    
 	    $aResult = array();
 
-
 		while (false !== ($file = readdir($dir))) {		
 	        $aResult['total_string'] .= file_get_contents('C:\xampp\htdocs\dropzone\css_uploaded/' . $file);	
 	        $aResult['final_string'] .= file_get_contents('C:\xampp\htdocs\dropzone\css_uploaded/' . $file);	 
 
 	        unlink('C:\xampp\htdocs\dropzone\css_uploaded/' . $file);
-	    }
+
+	    }	    
 
 	    $aResult['final_string'] = strip_tags($aResult['final_string']);
 
@@ -96,16 +122,32 @@ class Css{
 	    $aResult['final_string'] = str_replace(';}', '}', $aResult['final_string']);
 	    
 
-	    // $arquivo = fopen('C:\xampp\htdocs\dropzone\css_uploaded/' . 'teste.css', 'w');
-	    // fwrite($arquivo, $aResult['final_string']);
-	    	 
 	    $aResult['antes'] =  strlen($aResult['total_string']);
 	    $aResult['depois'] = strlen($aResult['final_string']);    
 
 	    
 	    $aResult['percent'] = round((($aResult['antes'] - $aResult['depois']) / $aResult['antes']) * 100, 2);
 
+	    self::log('crush_file', substr($aResult['total_string'], 0, 50), $aResult['percent']);
+
 		echo json_encode($aResult);
+
+	}
+
+
+	public function clearAll(){
+
+		$dir = opendir('C:\xampp\htdocs\dropzone\css_uploaded/');
+
+		$arquivo = readdir($dir);
+	    
+	    $aResult = array();
+
+		while (false !== ($file = readdir($dir))) {			      
+	        unlink('C:\xampp\htdocs\dropzone\css_uploaded/' . $file);
+	    }	 
+
+	    echo "true";
 
 	}
 	
